@@ -1,11 +1,10 @@
-* {
+*, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  font-family: Gotham Rounded, sans-serif;
+  font-weight: normal;
 }
 
 body {
-  font-family: 'Quicksand', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,10 +13,14 @@ body {
   height: 100vh;
   background-size: cover;
   color: #000000;
+  padding: 0;
+  margin: 0;
+  /*mix-blend-mode: overlay;*/
 }
 
 .time {
   font-size: 8rem;
+  margin-top: 30px;
 }
 
 h1 {
@@ -25,7 +28,6 @@ h1 {
 }
 
 h2 {
-  margin-bottom: 0.5rem;
   opacity: 0.8;
 }
 
@@ -33,4 +35,16 @@ h2 {
   .time {
     font-size: 6rem;
   }
+}
+
+.momentum {
+  width: 100%;
+  background: rgb(255 255 255 / 20%);
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.wrap {
+  max-width: 1024px;
 }

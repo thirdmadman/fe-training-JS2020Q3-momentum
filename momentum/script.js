@@ -1,113 +1,101 @@
-// DOM Elements
-const time = document.querySelector('.time'),
-  greeting = document.querySelector('.greeting'),
-  name = document.querySelector('.name'),
-  focus = document.querySelector('.focus');
+class Momentum {
 
-// Options
-const showAmPm = true;
+    constructor() {
+        this.time = document.querySelector('.time');
+        this.greeting = document.querySelector('.greeting');
+        this.name = document.querySelector('.name');
+        this.focus = document.querySelector('.focus');
 
-// Show Time
-function showTime() {
-  let today = new Date(),
-    hour = today.getHours(),
-    min = today.getMinutes(),
-    sec = today.getSeconds();
-
-  // Set AM or PM
-  const amPm = hour >= 12 ? 'PM' : 'AM';
-
-  // 12hr Format
-  hour = hour % 12 || 12;
-
-  // Output Time
-  time.innerHTML = `${hour}<span>:</span>${addZero(min)}<span>:</span>${addZero(
-    sec
-  )} ${showAmPm ? amPm : ''}`;
-
-  setTimeout(showTime, 1000);
-}
-
-// Add Zeros
-function addZero(n) {
-  return (parseInt(n, 10) < 10 ? '0' : '') + n;
-}
-
-// Set Background and Greeting
-function setBgGreet() {
-  let today = new Date(),
-    hour = today.getHours();
-
-  if (hour < 12) {
-    // Morning
-    document.body.style.backgroundImage =
-      "url('https://i.ibb.co/7vDLJFb/morning.jpg')";
-    greeting.textContent = 'Good Morning, ';
-  } else if (hour < 18) {
-    // Afternoon
-    document.body.style.backgroundImage =
-      "url('https://i.ibb.co/3mThcXc/afternoon.jpg')";
-    greeting.textContent = 'Good Afternoon, ';
-  } else {
-    // Evening
-    document.body.style.backgroundImage =
-      "url('https://i.ibb.co/924T2Wv/night.jpg')";
-    greeting.textContent = 'Good Evening, ';
-    document.body.style.color = 'white';
-  }
-}
-
-// Get Name
-function getName() {
-  if (localStorage.getItem('name') === null) {
-    name.textContent = '[Enter Name]';
-  } else {
-    name.textContent = localStorage.getItem('name');
-  }
-}
-
-// Set Name
-function setName(e) {
-  if (e.type === 'keypress') {
-    // Make sure enter is pressed
-    if (e.which == 13 || e.keyCode == 13) {
-      localStorage.setItem('name', e.target.innerText);
-      name.blur();
+        this.name.addEventListener('keypress', (e) => this.setToLocalStorageByKeyPress(e,'name'));
+        this.name.addEventListener('blur', (e) =>  this.setToLocalStorageByKeyPress(e,'name'));
+        this.focus.addEventListener('keypress', (e) =>  this.setToLocalStorageByKeyPress(e,'focus'));
+        this.focus.addEventListener('blur', (e) =>  this.setToLocalStorageByKeyPress(e,'focus'));
+        this.timeZone = 'Europe/Moscow';
+        console.log('init');
+        this.updateGUI();
+        this.updateText();
     }
-  } else {
-    localStorage.setItem('name', e.target.innerText);
-  }
-}
 
-// Get Focus
-function getFocus() {
-  if (localStorage.getItem('focus') === null) {
-    focus.textContent = '[Enter Focus]';
-  } else {
-    focus.textContent = localStorage.getItem('focus');
-  }
-}
+    showTime() {
+        let date = new Date();
+        let dateOptions = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',};
+        let timeOptions = {hour: '2-digit', hour12: true, minute: '2-digit', second: '2-digit'};
+        //timeOptions.timeZone = 'Europe/Moscow';
+        //dateOptions.timeZone = 'Europe/Moscow';
+        //options.timeZoneName = 'short';
 
-// Set Focus
-function setFocus(e) {
-  if (e.type === 'keypress') {
-    // Make sure enter is pressed
-    if (e.which == 13 || e.keyCode == 13) {
-      localStorage.setItem('focus', e.target.innerText);
-      focus.blur();
+        // console.log(date.toLocaleString('ru-RU', dateOptions));
+        // console.log(date.toLocaleString('ru-RU', timeOptions));
+
+        this.time.innerHTML = date.toLocaleString('ru-RU', timeOptions);
     }
-  } else {
-    localStorage.setItem('focus', e.target.innerText);
-  }
+
+    setBgGreet() {
+        let hour = new Date().getHours();
+        if (hour > 12) {
+            document.body.style.backgroundImage =
+                "url('https://i.ibb.co/7vDLJFb/morning.jpg')";
+          this.greeting.textContent = 'Good Morning, ';
+        }
+        else if (hour < 18) {
+            document.body.style.backgroundImage =
+                "url('https://i.ibb.co/3mThcXc/afternoon.jpg')";
+          this.greeting.textContent = 'Good Afternoon, ';
+        }
+        else {
+            document.body.style.backgroundImage =
+                "url('https://i.ibb.co/924T2Wv/night.jpg')";
+          this.greeting.textContent = 'Good Evening, ';
+        }
+    }
+
+    getFromLocalStorage(key, defaultString) {
+        if (localStorage.getItem(key) === null || localStorage.getItem(key) === '') {
+            return  defaultString;
+        }
+        else {
+            return  localStorage.getItem(key);
+        }
+    }
+
+    setToLocalStorageByKeyPress(event, key) {
+        if (event.type === 'keypress') {
+            if (event.which === 13 || event.keyCode === 13) {
+                localStorage.setItem(key, event.target.innerText);
+                event.target.blur();
+                this.updateText();
+            }
+        }
+        else {
+            localStorage.setItem(key, event.target.innerText);
+            this.updateText();
+        }
+
+    }
+
+    getLocation() {
+        fetch('http://ip-api.com/json/').then(response => response.json()).then(ipInfo => this.timeZone = ipInfo.timezone);
+        console.log(this.timeZone);
+    }
+
+    updateText() {
+        this.name.textContent = this.getFromLocalStorage('name', 'John Dove');
+        this.focus.textContent = this.getFromLocalStorage('focus', '[What Is Your Focus For Today?]');
+    }
+
+    updateGUI() {
+        this.showTime();
+        this.setBgGreet();
+        //this.getLocation();
+        setTimeout(() => this.updateGUI(), 1000);
+    }
+
+
+
 }
 
-name.addEventListener('keypress', setName);
-name.addEventListener('blur', setName);
-focus.addEventListener('keypress', setFocus);
-focus.addEventListener('blur', setFocus);
 
-// Run
-showTime();
-setBgGreet();
-getName();
-getFocus();
+
+const momentum = new Momentum();
+
+
