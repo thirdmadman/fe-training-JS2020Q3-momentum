@@ -1,7 +1,7 @@
 class Momentum {
 
     constructor() {
-        this.imagesUrl = 'https://rolling-scopes-school.github.io/thirdmadman-JS2020Q3/momentum/assets/images/';
+        this.imagesUrl = 'https://raw.githubusercontent.com/irinainina/ready-projects/momentum/momentum/assets/images//';
         this.date = document.querySelector('.date');
         this.time = document.querySelector('.time');
         this.greeting = document.querySelector('.greeting__text');
@@ -17,6 +17,8 @@ class Momentum {
         this.focus.addEventListener('keydown', (e) => this.setToLocalStorageByKeyPress(e, 'focus'));
         this.focus.addEventListener('blur', (e) => this.setToLocalStorageByKeyPress(e, 'focus'));
         this.quote.addEventListener('click', () => this.setQuote());
+
+        this.currentBackgroundNumber = 1;
 
         this.timeZone = 'Europe/Moscow';
         console.log('init');
@@ -45,21 +47,36 @@ class Momentum {
         this.time.innerHTML = date.toLocaleString(this.locales, timeOptions);
     }
 
+    setBackgroundImg(url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.onload = () => {
+            document.body.style.backgroundImage = "url('"+url+"')";
+        };
+    }
+
     setBackground() {
         let hour = new Date().getHours();
-        let number = Math.floor(Math.random() * 20) + 1;
-        number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
+        //let number = Math.floor(Math.random() * 20) + 1;
+        //number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
+        let number =  this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
+        this.currentBackgroundNumber++;
+        console.log(this.currentBackgroundNumber);
+        this.currentBackgroundNumber = this.currentBackgroundNumber >=20 ? 1 : this.currentBackgroundNumber;
         if (hour >= 6 && hour < 12) {
-            document.body.style.backgroundImage = "url('" + this.imagesUrl + "morning/" + number + ".jpg')";
+            this.setBackgroundImg(this.imagesUrl + "morning/" + number + ".jpg");
             this.greeting.textContent = 'Good morning, ';
-        } else if (hour >= 12 && hour < 18) {
-            document.body.style.backgroundImage = "url('" + this.imagesUrl + "day/" + number + ".jpg')";
+        }
+        else if (hour >= 12 && hour < 18) {
+            this.setBackgroundImg(this.imagesUrl + "day/" + number + ".jpg");
             this.greeting.textContent = 'Good afternoon, ';
-        } else if (hour >= 18 && hour < 24) {
-            document.body.style.backgroundImage = "url('" + this.imagesUrl + "evening/" + number + ".jpg')";
+        }
+        else if (hour >= 18 && hour < 24) {
+            this.setBackgroundImg(this.imagesUrl + "evening/" + number + ".jpg");
             this.greeting.textContent = 'Good evening, ';
-        } else if (hour >= 0 && hour < 6) {
-            document.body.style.backgroundImage = "url('" + this.imagesUrl + "night/" + number + ".jpg')";
+        }
+        else if (hour >= 0 && hour < 6) {
+            this.setBackgroundImg(this.imagesUrl + "night/" + number + ".jpg");
             this.greeting.textContent = 'Good night, ';
         }
     }
@@ -68,7 +85,7 @@ class Momentum {
         let hour = new Date().getHours();
         let minute = new Date().getMinutes();
         if (hour !== this.lastHourChangedBackground) {
-            this.setBackground();
+            this.currentBackgroundNumber = 1;
             this.lastHourChangedBackground = hour;
         }
     }
