@@ -5,8 +5,8 @@ class Momentum {
         this.date = document.querySelector('.date');
         this.time = document.querySelector('.time');
         this.greeting = document.querySelector('.greeting__text');
-        this.name = document.querySelector('.name');
-        this.focus = document.querySelector('.focus');
+        this.name = document.querySelector('.greeting__name');
+        this.focus = document.querySelector('.focus__input');
         this.quote = document.querySelector('.quote');
 
         this.buttonChangeBacbround = document.querySelector('.btn-change-background');
@@ -116,7 +116,7 @@ class Momentum {
 
     updateText() {
         this.name.textContent = this.getFromLocalStorage('name', 'John Dove');
-        this.focus.textContent = this.getFromLocalStorage('focus', '[What Is Your Focus For Today?]');
+        this.focus.textContent = this.getFromLocalStorage('focus', 'What Is Your Focus For Today?');
     }
 
     updateGUI() {
