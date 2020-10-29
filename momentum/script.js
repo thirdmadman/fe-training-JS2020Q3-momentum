@@ -1,3 +1,78 @@
+class OpenWeather {
+    constructor() {
+        this.API_KEY = 'f7f47ae792c7c76739c1b32317c665be';
+
+        this.weatherIcon = document.querySelector('.weather-icon');
+        this.temperature = document.querySelector('.temperature');
+        this.error = document.querySelector('.error');
+        this.content = document.querySelector('.weather-content');
+        this.city = document.querySelector('.city');
+        this.weatherDescription = document.querySelector('.weather-description');
+
+        this.city.addEventListener('keypress', (e) => this.setCity(e));
+        this.city.addEventListener('blur', (e) => this.setCity(e));
+
+
+        this.cityName = this.getFromLocalStorage('city','Moscow');
+        this.city.textContent = this.cityName;
+        this.getWeather();
+    }
+
+    setCity(event) {
+        if (event.type === 'keypress') {
+            if (event.code === 'Enter') {
+                if (event.target.innerText.trim().length !== 0) {
+                    localStorage.setItem('city', event.target.innerText);
+                    this.city = event.target.innerText;
+                    event.target.blur();
+                    //this.city.textContent = this.cityName;
+                    this.getWeather();
+                }
+            }
+        }
+        else if (event.type === 'blur') {
+            if (event.target.innerText.trim().length !== 0) {
+                localStorage.setItem('city', event.target.innerText);
+                this.city = event.target.innerText;
+                console.log(this.city);
+
+                //this.city.textContent = this.cityName;
+                this.getWeather();
+            }
+        }
+
+    }
+
+
+    async getWeather() {
+        const res = await fetch('https://api.openweathermap.org/data/2.5/weather?q='+this.getFromLocalStorage('city', 'Moscow')+'&lang=en&appid='+this.API_KEY+'&units=metric');
+        if (!res.ok) {
+            this.error.style.display = 'block';
+            this.content.style.display = 'none';
+        } else {
+            const data = await res.json();
+            this.error.style.display = 'none';
+            this.content.style.display = 'block';
+            this.weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+            this.temperature.textContent = `${data.main.temp}°C`;
+            this.weatherDescription.textContent = data.weather[0].description;
+        }
+
+    }
+
+    getFromLocalStorage(key, defaultString) {
+        if (localStorage.getItem(key) === null || localStorage.getItem(key) === '') {
+            return defaultString;
+        } else {
+            return localStorage.getItem(key);
+        }
+    }
+
+
+
+}
+
+
 class Momentum {
 
     constructor() {
@@ -25,11 +100,9 @@ class Momentum {
         this.updateGUI();
         this.updateText();
         this.setQuote();
-        this.locales = 'en-US';
+        this.locales = 'en-GB';
         this.is12hourTimeFormat = false;
-
-        this.quoteOfTheDay = 'All is GG WP NAVI!';
-
+        this.setBackground();
         this.lastHourChangedBackground = new Date().getHours();
     }
 
@@ -42,7 +115,6 @@ class Momentum {
         //options.timeZoneName = 'short';
 
         // console.log(date.toLocaleString('ru-RU', dateOptions));
-        // console.log(date.toLocaleString('ru-RU', timeOptions));
         this.date.innerHTML = date.toLocaleString(this.locales, dateOptions);
         this.time.innerHTML = date.toLocaleString(this.locales, timeOptions);
     }
@@ -51,7 +123,7 @@ class Momentum {
         const img = document.createElement('img');
         img.src = url;
         img.onload = () => {
-            document.body.style.backgroundImage = "url('"+url+"')";
+            document.body.style.backgroundImage = "url('" + url + "')";
         };
     }
 
@@ -59,23 +131,20 @@ class Momentum {
         let hour = new Date().getHours();
         //let number = Math.floor(Math.random() * 20) + 1;
         //number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
-        let number =  this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
+        let number = this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
         this.currentBackgroundNumber++;
         console.log(this.currentBackgroundNumber);
-        this.currentBackgroundNumber = this.currentBackgroundNumber >=20 ? 1 : this.currentBackgroundNumber;
+        this.currentBackgroundNumber = this.currentBackgroundNumber >= 20 ? 1 : this.currentBackgroundNumber;
         if (hour >= 6 && hour < 12) {
             this.setBackgroundImg(this.imagesUrl + "morning/" + number + ".jpg");
             this.greeting.textContent = 'Good morning, ';
-        }
-        else if (hour >= 12 && hour < 18) {
+        } else if (hour >= 12 && hour < 18) {
             this.setBackgroundImg(this.imagesUrl + "day/" + number + ".jpg");
             this.greeting.textContent = 'Good afternoon, ';
-        }
-        else if (hour >= 18 && hour < 24) {
+        } else if (hour >= 18 && hour < 24) {
             this.setBackgroundImg(this.imagesUrl + "evening/" + number + ".jpg");
             this.greeting.textContent = 'Good evening, ';
-        }
-        else if (hour >= 0 && hour < 6) {
+        } else if (hour >= 0 && hour < 6) {
             this.setBackgroundImg(this.imagesUrl + "night/" + number + ".jpg");
             this.greeting.textContent = 'Good night, ';
         }
@@ -148,5 +217,6 @@ class Momentum {
 
 
 const momentum = new Momentum();
+const openWeather = new OpenWeather();
 
 

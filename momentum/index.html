@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/owfont-regular.css">
     <title>momentum</title>
 </head>
 <body>
-
-<div class="disclaimer">
-    <p>Привет! Я всё ещё работаю над этим и постараюсь закончить по скорее. мой discord: thirdmadman</p>
-</div>
-
 <div class="blackout">
     <div class="momentum">
         <button class="btn-change-background"></button>
         <div class="wrap">
 
+            <div class="weather">
+                <p class="error" style="display: none;">No such city</p>
+                <div class="weather-content">
+                    <i class="weather-icon owf"></i>
+                    <div class="temperature">0°C</div>
+                    <div class="weather-description">none</div>
+                </div>
+                <div class="city" contenteditable="true">Moscow</div>
+            </div>
 
             <div class="date">00.00.2000</div>
             <div class="time">00:00::00</div>
@@ -25,8 +30,8 @@
                 <span class="greeting__name" contenteditable="true">?</span>
             </div>
 
-            <div class="focus" >
-                <div class="focus__title">Your aim for today:</div>
+            <div class="focus">
+                <div class="focus__title">Your focus for today:</div>
                 <div class="focus__input" contenteditable="true"></div>
             </div>
 
