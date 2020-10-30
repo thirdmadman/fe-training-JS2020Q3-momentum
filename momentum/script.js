@@ -29,6 +29,9 @@ class OpenWeather {
                     this.getWeather();
                 }
             }
+            else if (event.target.innerText.trim().length === 0) {
+                event.target.innerText = this.getFromLocalStorage('city', 'Moscow');
+            }
         }
         else if (event.type === 'blur') {
             if (event.target.innerText.trim().length !== 0) {
@@ -38,6 +41,9 @@ class OpenWeather {
 
                 //this.city.textContent = this.cityName;
                 this.getWeather();
+            }
+            else if (event.target.innerText.trim().length === 0) {
+                event.target.innerText = this.getFromLocalStorage('city', 'Moscow');
             }
         }
 
@@ -55,7 +61,9 @@ class OpenWeather {
             this.content.style.display = 'block';
             this.weatherIcon.classList.add(`owf-${data.weather[0].id}`);
             this.temperature.textContent = `${data.main.temp}°C`;
-            this.weatherDescription.textContent = data.weather[0].description;
+            this.weatherDescription.textContent = '"'+data.weather[0].description+'"';
+            this.weatherDescription.textContent += ' hum: '+data.main.humidity+'% ';
+            this.weatherDescription.textContent += 'wind: ' +data.wind.speed + ' mph';
         }
 
     }
