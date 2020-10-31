@@ -84,7 +84,7 @@ class OpenWeather {
 class Momentum {
 
     constructor() {
-        this.imagesUrl = 'https://raw.githubusercontent.com/irinainina/ready-projects/momentum/momentum/assets/images//';
+        this.imagesUrl = 'https://raw.githubusercontent.com/irinainina/ready-projects/momentum/momentum/assets/images/';
         this.date = document.querySelector('.date');
         this.time = document.querySelector('.time');
         this.greeting = document.querySelector('.greeting__text');
@@ -102,7 +102,7 @@ class Momentum {
         this.quote.addEventListener('click', () => this.setQuote());
 
         this.currentBackgroundNumber = 1;
-
+        this.backgroundsArray = this.generateBackgroundsArray();
         this.timeZone = 'Europe/Moscow';
         console.log('init');
         this.updateGUI();
@@ -112,6 +112,31 @@ class Momentum {
         this.is12hourTimeFormat = false;
         this.setBackground();
         this.lastHourChangedBackground = new Date().getHours();
+
+
+    }
+
+
+    generateBackgroundsRandom6Array(daytime) {
+        let array =[];
+        for (let i =0; i<6; i++) {
+            let number = Math.floor(Math.random() * 20) + 1;
+            number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
+            array.push(this.imagesUrl + daytime +"/" + number + ".jpg");
+        }
+        return array;
+    }
+
+    generateBackgroundsArray() {
+        let array = [];
+        let daytimeArray = ['night','morning','day','evening'];
+        //array = this.generateBackgroundsRandom6Array('morning');
+        daytimeArray.forEach((e) => {
+            this.generateBackgroundsRandom6Array(e).forEach(el => array.push(el));
+        });
+
+        console.log(array);
+        return array;
     }
 
     showTime() {
@@ -136,37 +161,42 @@ class Momentum {
     }
 
     setBackground() {
-        let hour = new Date().getHours();
-        let number = Math.floor(Math.random() * 20) + 1;
-        number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
-        //let number = this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
-        this.currentBackgroundNumber++;
-        console.log(this.currentBackgroundNumber);
-        this.currentBackgroundNumber = this.currentBackgroundNumber >= 20 ? 1 : this.currentBackgroundNumber;
-        if (hour >= 6 && hour < 12) {
-            this.setBackgroundImg(this.imagesUrl + "morning/" + number + ".jpg");
-            this.greeting.textContent = 'Good morning, ';
-        } else if (hour >= 12 && hour < 18) {
-            this.setBackgroundImg(this.imagesUrl + "day/" + number + ".jpg");
-            this.greeting.textContent = 'Good afternoon, ';
-        } else if (hour >= 18 && hour < 24) {
-            this.setBackgroundImg(this.imagesUrl + "evening/" + number + ".jpg");
-            this.greeting.textContent = 'Good evening, ';
-        } else if (hour >= 0 && hour < 6) {
-            this.setBackgroundImg(this.imagesUrl + "night/" + number + ".jpg");
-            this.greeting.textContent = 'Good night, ';
-        }
+        //let hour = new Date().getHours();
+        // let number = Math.floor(Math.random() * 20) + 1;
+        // number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
+        // //let number = this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
+        // this.currentBackgroundNumber++;
+        // console.log(this.currentBackgroundNumber);
+        // this.currentBackgroundNumber = this.currentBackgroundNumber >= 20 ? 1 : this.currentBackgroundNumber;
+        // if (hour >= 6 && hour < 12) {
+        //     this.setBackgroundImg(this.imagesUrl + "morning/" + number + ".jpg");
+        //     this.greeting.textContent = 'Good morning, ';
+        // } else if (hour >= 12 && hour < 18) {
+        //     this.setBackgroundImg(this.imagesUrl + "day/" + number + ".jpg");
+        //     this.greeting.textContent = 'Good afternoon, ';
+        // } else if (hour >= 18 && hour < 24) {
+        //     this.setBackgroundImg(this.imagesUrl + "evening/" + number + ".jpg");
+        //     this.greeting.textContent = 'Good evening, ';
+        // } else if (hour >= 0 && hour < 6) {
+        //     this.setBackgroundImg(this.imagesUrl + "night/" + number + ".jpg");
+        //     this.greeting.textContent = 'Good night, ';
+        // }
+        console.log(this.backgroundsArray[this.currentBackgroundNumber]);
+        this.setBackgroundImg(this.backgroundsArray[this.currentBackgroundNumber]);
     }
 
     updateBackground() {
         let hour = new Date().getHours();
         if (hour !== this.lastHourChangedBackground) {
-            this.changeBackground();
+            this.currentBackgroundNumber = hour;
+            this.setBackground();
             this.lastHourChangedBackground = hour;
         }
     }
 
     changeBackground() {
+        this.currentBackgroundNumber < 23 ? this.currentBackgroundNumber++ : this.currentBackgroundNumber = 0;
+        console.log(this.currentBackgroundNumber);
         this.setBackground();
         this.buttonChangeBacbround.disabled = true;
         setTimeout(() => this.buttonChangeBacbround.disabled = false, 1000);
