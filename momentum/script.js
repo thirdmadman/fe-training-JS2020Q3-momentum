@@ -137,9 +137,9 @@ class Momentum {
 
     setBackground() {
         let hour = new Date().getHours();
-        //let number = Math.floor(Math.random() * 20) + 1;
-        //number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
-        let number = this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
+        let number = Math.floor(Math.random() * 20) + 1;
+        number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
+        //let number = this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
         this.currentBackgroundNumber++;
         console.log(this.currentBackgroundNumber);
         this.currentBackgroundNumber = this.currentBackgroundNumber >= 20 ? 1 : this.currentBackgroundNumber;
@@ -160,9 +160,8 @@ class Momentum {
 
     updateBackground() {
         let hour = new Date().getHours();
-        let minute = new Date().getMinutes();
         if (hour !== this.lastHourChangedBackground) {
-            this.currentBackgroundNumber = 1;
+            this.changeBackground();
             this.lastHourChangedBackground = hour;
         }
     }
