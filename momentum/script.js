@@ -161,26 +161,26 @@ class Momentum {
     }
 
     setBackground() {
-        //let hour = new Date().getHours();
+        let hour = new Date().getHours();
         // let number = Math.floor(Math.random() * 20) + 1;
         // number = number >= 10 ? number.toString(10) : "0" + number.toString(10);
         // //let number = this.currentBackgroundNumber >= 10 ? this.currentBackgroundNumber.toString(10) : "0" + this.currentBackgroundNumber.toString(10);
         // this.currentBackgroundNumber++;
         // console.log(this.currentBackgroundNumber);
         // this.currentBackgroundNumber = this.currentBackgroundNumber >= 20 ? 1 : this.currentBackgroundNumber;
-        // if (hour >= 6 && hour < 12) {
-        //     this.setBackgroundImg(this.imagesUrl + "morning/" + number + ".jpg");
-        //     this.greeting.textContent = 'Good morning, ';
-        // } else if (hour >= 12 && hour < 18) {
-        //     this.setBackgroundImg(this.imagesUrl + "day/" + number + ".jpg");
-        //     this.greeting.textContent = 'Good afternoon, ';
-        // } else if (hour >= 18 && hour < 24) {
-        //     this.setBackgroundImg(this.imagesUrl + "evening/" + number + ".jpg");
-        //     this.greeting.textContent = 'Good evening, ';
-        // } else if (hour >= 0 && hour < 6) {
-        //     this.setBackgroundImg(this.imagesUrl + "night/" + number + ".jpg");
-        //     this.greeting.textContent = 'Good night, ';
-        // }
+        if (hour >= 6 && hour < 12) {
+            //this.setBackgroundImg(this.imagesUrl + "morning/" + number + ".jpg");
+            this.greeting.textContent = 'Good morning, ';
+        } else if (hour >= 12 && hour < 18) {
+            //this.setBackgroundImg(this.imagesUrl + "day/" + number + ".jpg");
+            this.greeting.textContent = 'Good afternoon, ';
+        } else if (hour >= 18 && hour < 24) {
+            //this.setBackgroundImg(this.imagesUrl + "evening/" + number + ".jpg");
+            this.greeting.textContent = 'Good evening, ';
+        } else if (hour >= 0 && hour < 6) {
+            //this.setBackgroundImg(this.imagesUrl + "night/" + number + ".jpg");
+            this.greeting.textContent = 'Good night, ';
+        }
         console.log(this.backgroundsArray[this.currentBackgroundNumber]);
         this.setBackgroundImg(this.backgroundsArray[this.currentBackgroundNumber]);
     }
