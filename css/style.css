@@ -1,0 +1,208 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-weight: normal;
+}
+
+html,
+body {
+  font-family: Gotham Rounded, sans-serif;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  color: #ffffff;
+  text-shadow: 0 0 2px rgb(0 0 0);
+  background-image: url('https://rolling-scopes-school.github.io/thirdmadman-JS2020Q3/momentum/assets/images/day/01.jpg');
+  transition: background-image 0.5s ease-in-out;
+}
+
+.weather {
+  padding: 10px;
+}
+
+.error {
+  color: red;
+  display: none;
+}
+.weather-content {
+  display: none;
+}
+.temperature {
+  display: inline-block;
+}
+.weather-description {
+  display: inline-block;
+}
+
+.weather-icon {
+  display: inline-block;
+}
+
+.date {
+  font-size: 2rem;
+}
+
+.time {
+  font-size: 8rem;
+}
+
+.greeting {
+  font-size: 2.5rem;
+}
+
+.greeting__name {
+  min-width: 20px;
+}
+
+.focus {
+  opacity: 0.8;
+  font-size: 2rem;
+  margin-top: 2rem;
+}
+
+.focus__title {
+  font-size: 1.3rem;
+
+  margin-bottom: 0.8rem;
+}
+
+.focus__input {
+}
+
+.quote {
+  position: absolute;
+  font-size: 1.3rem;
+  bottom: 1.2rem;
+  transition: text-shadow 0.5s ease-in-out;
+  opacity: 60%;
+  padding: 0 3rem;
+}
+
+.quote:hover {
+  text-shadow: 0 0 20px white;
+  transition: text-shadow 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+.quote:active {
+  text-shadow: 0px -6px 5px white;
+  transition: text-shadow 0.5s ease-in-out;
+  transform: scale(0.9);
+}
+
+@media screen and (min-width: 1601px) {
+  html {
+    font-size: 25px;
+  }
+}
+
+@media screen and (max-width: 1600px) {
+  html {
+    font-size: 21px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+.momentum {
+  width: 100%;
+  /* height: 100%; */
+  display: flex;
+  justify-content: center;
+  /* padding: 20px 20px; */
+  backdrop-filter: blur(1px);
+}
+
+.wrap {
+  max-width: 1024px;
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-change-background {
+  position: absolute;
+  right: 2rem;
+  top: -2rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 0;
+  background: url('https://www.iconninja.com/files/285/401/219/refresh-icon.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: invert(1);
+  margin: 0px;
+  padding: 0px;
+  transition: transform 0.3s ease-out;
+}
+
+.btn-change-background:hover {
+  /* filter: grayscale(.5); */
+  cursor: pointer;
+}
+
+.btn-change-background:active,
+.btn-change-background:focus {
+  outline: 0;
+}
+
+.btn-change-background:active {
+  transform: scale(0.9);
+  transform: rotate(360deg);
+}
+
+.blackout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background: rgb(0 0 0 / 0.3);
+}
+
+.disclaimer {
+  position: absolute;
+}
